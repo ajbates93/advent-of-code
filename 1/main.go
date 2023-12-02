@@ -18,9 +18,14 @@ func stripNonNumericFromLine(line *string) {
 	matcher := regex.FindAllString(*line, -1)
 
 	for _, word := range matcher {
-		if !contains(numberWords, strings.ToLower(word)) {
-			*line = strings.Replace(*line, word, "", -1)
+		if contains(numberWords, word) {
+			fmt.Println("Preserving number word: ", word)
+		} else {
+			*line = regex.ReplaceAllString(*line, "")
 		}
+		// if !contains(numberWords, strings.ToLower(word)) {
+		// 	*line = strings.Replace(*line, word, "", -1)
+		// }
 	}
 	fmt.Println("Line after replace: ", *line)
 
@@ -31,7 +36,7 @@ func stripNonNumericFromLine(line *string) {
 
 func contains(list []string, word string) bool {
 	for _, v := range list {
-		if v == word {
+		if strings.ToLower(v) == strings.ToLower(word) {
 			return true
 		}
 	}
